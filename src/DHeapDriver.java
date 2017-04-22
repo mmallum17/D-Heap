@@ -42,12 +42,13 @@ public class DHeapDriver
                     System.out.print("Enter element to insert: ");
                     int element = in.nextInt();
                     dHeap.insert(element);
-                    System.out.print(dHeap);
+                    System.out.println(dHeap);
                     break;
                 case 2:
                     try
                     {
                         dHeap.deleteMin();
+                        System.out.println(dHeap);
                     }
                     catch(Exception e)
                     {
@@ -55,6 +56,11 @@ public class DHeapDriver
                     }
                     break;
                 case 3:
+                    System.out.print("Enter d: ");
+                    d = in.nextInt();
+                    dHeap.setD(d);
+                    dHeap.buildHeap();
+                    System.out.println(dHeap);
                     break;
             }
 

@@ -45,7 +45,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      */
     public DHeap( AnyType [ ] items , int d)
     {
-        this.d = d;
+        setD(d);
         currentSize = items.length;
         array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
 
@@ -55,6 +55,11 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         buildHeap( );
     }
 
+
+    public void setD(int d)
+    {
+        this.d = d;
+    }
     /**
      * Insert into the priority queue, maintaining heap order.
      * Duplicates are allowed.
@@ -112,7 +117,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      * Establish heap order property from an arbitrary
      * arrangement of items. Runs in linear time.
      */
-    private void buildHeap( )
+    public void buildHeap( )
     {
         for( int i = (currentSize + d - 2) / d; i > 0; i-- )
             percolateDown( i );
