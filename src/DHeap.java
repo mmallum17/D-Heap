@@ -15,7 +15,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      *  CONSTRUCTOR: DHeap                                              *
      *  PURPOSE: Creates the initial D-Heap using buildHeap()           *
      *  INPUT PARAMETERS: AnyType[] items -> the initial list of items  *
-     *                     int d -> the d value of the D-Heap           *
+     *                    int d -> the d value of the D-Heap            *
      *  OUTPUT: None 		              		                        *
      ********************************************************************/
     public DHeap( AnyType [ ] items , int d)

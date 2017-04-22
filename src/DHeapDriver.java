@@ -23,6 +23,12 @@ public class DHeapDriver
         runMenu(dHeap);
     }
 
+    /*********************************************************************
+     *  FUNCTION: getInitialHeap                                         *
+     *  PURPOSE: Prompts user for initial heap elements and returns them *
+     *  INPUT PARAMETERS: None                                           *
+     *  OUTPUT: Integer[] -> initial heap elements 		              	 *
+     *********************************************************************/
     private static Integer[] getInitialHeap()
     {
         // Get initial heap elements
@@ -39,6 +45,12 @@ public class DHeapDriver
         return heapElements;
     }
 
+    /********************************************
+     *  FUNCTION: getD                          *
+     *  PURPOSE: Gets the D value from the user *
+     *  INPUT PARAMETERS: None                  *
+     *  OUTPUT: int, D value given by user 		*
+     ********************************************/
     private static int getD()
     {
         Scanner in = new Scanner(System.in);
@@ -47,6 +59,12 @@ public class DHeapDriver
         return d;
     }
 
+    /***********************************************************
+     *  FUNCTION: runMenu                                      *
+     *  PURPOSE: Runs the menu and performs associated tasks   *
+     *  INPUT PARAMETERS: DHeap dHeap -> the D-Heap being used *
+     *  OUTPUT: None 		              		               *
+     ***********************************************************/
     private static void runMenu(DHeap dHeap)
     {
         int d;
