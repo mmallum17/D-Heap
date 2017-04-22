@@ -67,8 +67,8 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
 
         // Percolate up
         int hole = ++currentSize;
-        for( array[ 0 ] = x; x.compareTo( array[ hole / 2 ] ) < 0; hole /= 2 )
-            array[ hole ] = array[ hole / 2 ];
+        for( array[ 0 ] = x; x.compareTo( array[ (hole + d - 2) / d ] ) < 0; hole = (hole + d - 2) / d )
+            array[ hole ] = array[ (hole + d - 2) / d ];
         array[ hole ] = x;
     }
 

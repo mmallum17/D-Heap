@@ -30,7 +30,35 @@ public class DHeapDriver
         // Create initial heap
         DHeap<Integer> dHeap = new DHeap<Integer>(heapElements, d);
         System.out.println(dHeap);
+        int option;
+        do
+        {
+            System.out.print("Press 1) for insert, 2) for deleteMn, 3) for new d value, 4) to quit\n");
+            System.out.print("Enter choice: ");
+            option = in.nextInt();
+            switch(option)
+            {
+                case 1:
+                    System.out.print("Enter element to insert: ");
+                    int element = in.nextInt();
+                    dHeap.insert(element);
+                    System.out.print(dHeap);
+                    break;
+                case 2:
+                    try
+                    {
+                        dHeap.deleteMin();
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.print(e);
+                    }
+                    break;
+                case 3:
+                    break;
+            }
 
+        }while(option != 4);
         /*int numItems = 10000;
         DHeap<Integer> h = new DHeap<>( );
         int i = 37;
