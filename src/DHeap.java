@@ -43,8 +43,9 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     /**
      * Construct the binary heap given an array of items.
      */
-    public DHeap( AnyType [ ] items )
+    public DHeap( AnyType [ ] items , int d)
     {
+        this.d = d;
         currentSize = items.length;
         array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
 
@@ -84,10 +85,10 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      * Find the smallest item in the priority queue.
      * @return the smallest item, or throw an UnderflowException if empty.
      */
-    public AnyType findMin( )
+    public AnyType findMin( ) throws Exception
     {
         if( isEmpty( ) )
-            throw new UnderflowException( );
+            throw new Exception( );
         return array[ 1 ];
     }
 
@@ -95,10 +96,10 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      * Remove the smallest item from the priority queue.
      * @return the smallest item, or throw an UnderflowException if empty.
      */
-    public AnyType deleteMin( )
+    public AnyType deleteMin( ) throws Exception
     {
         if( isEmpty( ) )
-            throw new UnderflowException( );
+            throw new Exception( );
 
         AnyType minItem = findMin( );
         array[ 1 ] = array[ currentSize-- ];
@@ -113,7 +114,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      */
     private void buildHeap( )
     {
-        for( int i = currentSize / 2; i > 0; i-- )
+        for( int i = (currentSize + d - 2) / d; i > 0; i-- )
             percolateDown( i );
     }
 
@@ -134,10 +135,22 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         currentSize = 0;
     }
 
+    @Override
+    public String toString()
+    {
+        String output = "";
+        for(int i = 1; i <= currentSize; i++)
+        {
+            output += array[i] + " ";
+        }
+        return output;
+    }
+
     private static final int DEFAULT_CAPACITY = 10;
 
     private int currentSize;      // Number of elements in heap
     private AnyType [ ] array; // The heap array
+    private int d;              // d value of d heap
 
     /**
      * Internal method to percolate down in the heap.
@@ -148,31 +161,29 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         int child;
         AnyType tmp = array[ hole ];
 
-        for( ; hole * 2 <= currentSize; hole = child )
+        for( ; (hole * d - d + 2) <= currentSize; hole = child )
         {
-            child = hole * 2;
-            if( child != currentSize &&
+            // Get first child
+            child = hole * d - d + 2;
+            int tmpChild = child;
+            // Find min child
+            for(int i = 0; child + i <= currentSize && i < d ; i++)
+            {
+                if(array[child + i].compareTo(array[tmpChild]) < 0)
+                {
+                    tmpChild = child + i;
+                }
+            }
+            child = tmpChild;
+            /*if( child != currentSize &&
                     array[ child + 1 ].compareTo( array[ child ] ) < 0 )
-                child++;
+                child++;*/
+            // If smallest child is less than parent, swap
             if( array[ child ].compareTo( tmp ) < 0 )
                 array[ hole ] = array[ child ];
             else
                 break;
         }
         array[ hole ] = tmp;
-    }
-
-    // Test program
-    public static void main( String [ ] args )
-    {
-        int numItems = 10000;
-        DHeap<Integer> h = new DHeap<>( );
-        int i = 37;
-
-        for( i = 37; i != 0; i = ( i + 37 ) % numItems )
-            h.insert( i );
-        for( i = 1; i < numItems; i++ )
-            if( h.deleteMin( ) != i )
-                System.out.println( "Oops! " + i );
     }
 }
