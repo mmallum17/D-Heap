@@ -20,10 +20,12 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      ********************************************************************/
     public DHeap( AnyType [ ] items , int d)
     {
+        // Initialize Values
         setD(d);
         currentSize = items.length;
-        array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
 
+        // Create heap using array (1-indexed)
+        array = (AnyType[]) new Comparable[ ( currentSize + 2 ) * 11 / 10 ];
         int i = 1;
         for( AnyType item : items )
             array[ i++ ] = item;
@@ -50,10 +52,11 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      ******************************************************************/
     public void insert( AnyType x )
     {
+        // If array is full, enlarge array
         if( currentSize == array.length - 1 )
             enlargeArray( array.length * 2 + 1 );
 
-        // Percolate up
+        // Insert element and Percolate up
         int hole = ++currentSize;
         for( array[ 0 ] = x; x.compareTo( array[ (hole + d - 2) / d ] ) < 0; hole = (hole + d - 2) / d )
             array[ hole ] = array[ (hole + d - 2) / d ];
@@ -69,8 +72,8 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     private void enlargeArray( int newSize )
     {
         AnyType [] old = array;
-        array = (AnyType []) new Comparable[ newSize ];
-        for( int i = 0; i < old.length; i++ )
+        array = (AnyType []) new Comparable[ newSize ]; // Enlarge array
+        for( int i = 0; i < old.length; i++ )   // Copy old array to new array
             array[ i ] = old[ i ];
     }
 
@@ -82,7 +85,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      *********************************************************/
     public AnyType findMin( ) throws Exception
     {
-        if( isEmpty( ) )
+        if( isEmpty( ) )    // If heap is empty, throw exception
             throw new Exception( );
         return array[ 1 ];
     }
@@ -95,12 +98,12 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      *********************************************************/
     public AnyType deleteMin( ) throws Exception
     {
-        if( isEmpty( ) )
+        if( isEmpty( ) )    // If heap is empty, throw exception
             throw new Exception( );
 
         AnyType minItem = findMin( );
-        array[ 1 ] = array[ currentSize-- ];
-        percolateDown( 1 );
+        array[ 1 ] = array[ currentSize-- ]; // Move last element to root
+        percolateDown( 1 ); // Percolate down from root
 
         return minItem;
     }
@@ -113,6 +116,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      **********************************************************/
     public void buildHeap( )
     {
+        // Percolate down from second to last level to the root
         for( int i = (currentSize + d - 2) / d; i > 0; i-- )
             percolateDown( i );
     }
@@ -138,7 +142,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     public String toString()
     {
         String output = String.format("Output: Heap (d=%d): ", d);
-        for(int i = 1; i <= currentSize; i++)
+        for(int i = 1; i <= currentSize; i++)   // Add heap elements to output
         {
             output += array[i] + " ";
         }
@@ -156,13 +160,14 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         int child;
         AnyType tmp = array[ hole ];
 
+        // Travel parent to child and percolate down
         for( ; (hole * d - d + 2) <= currentSize; hole = child )
         {
-            // Get first child
+            // Get the first child of the parent
             child = hole * d - d + 2;
             int tmpChild = child;
 
-            // Find min child
+            // Find the smallest child
             for(int i = 0; child + i <= currentSize && i < d ; i++)
             {
                 if(array[child + i].compareTo(array[tmpChild]) < 0)
@@ -172,10 +177,10 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
             }
             child = tmpChild;
 
-            // If smallest child is less than parent, swap
+            // If smallest child is less than parent, then swap
             if( array[ child ].compareTo( tmp ) < 0 )
                 array[ hole ] = array[ child ];
-            else
+            else    // If parent < smallest child, exit loop
                 break;
         }
         array[ hole ] = tmp;

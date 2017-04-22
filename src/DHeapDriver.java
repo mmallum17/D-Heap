@@ -10,16 +10,10 @@ public class DHeapDriver
 {
     public static void main( String [ ] args )
     {
-        // Get initial heap elements
-        Integer[] heapElements = getInitialHeap();
-
-        // Get d value
-        int d = getD();
-
-        // Create initial heap
-        DHeap<Integer> dHeap = new DHeap<>(heapElements, d);
+        Integer[] heapElements = getInitialHeap(); // Get initial heap elements
+        int d = getD(); // Get d value
+        DHeap<Integer> dHeap = new DHeap<>(heapElements, d); // Create initial heap
         System.out.println(dHeap + "\n");
-
         runMenu(dHeap);
     }
 
@@ -31,11 +25,13 @@ public class DHeapDriver
      *********************************************************************/
     private static Integer[] getInitialHeap()
     {
-        // Get initial heap elements
+        // Get input from user
         Scanner in = new Scanner(System.in);
         System.out.print("Enter heap elements: ");
         String input = in.nextLine();
-        String[] parsed = input.split(" ");
+        String[] parsed = input.split(" "); // Parse string
+
+        // Convert String input to Integer array
         Integer[] heapElements = new Integer[parsed.length];
         for(int i = 0; i < parsed.length; i++)
         {
@@ -49,7 +45,7 @@ public class DHeapDriver
      *  FUNCTION: getD                          *
      *  PURPOSE: Gets the D value from the user *
      *  INPUT PARAMETERS: None                  *
-     *  OUTPUT: int, D value given by user 		*
+     *  OUTPUT: int -> D value given by user 		*
      ********************************************/
     private static int getD()
     {
@@ -67,40 +63,40 @@ public class DHeapDriver
      ***********************************************************/
     private static void runMenu(DHeap dHeap)
     {
-        int d;
         Scanner in = new Scanner(System.in);
         int option;
         do
         {
+            // Display menu and get choice from user
             System.out.print("Press 1) for insert, 2) for deleteMn, 3) for new d value, 4) to quit\n");
             System.out.print("Enter choice: ");
             option = in.nextInt();
-            switch(option)
+            switch(option)  // Perform Task
             {
-                case 1:
+                case 1: // Insert
                     System.out.print("Enter element to insert: ");
                     int element = in.nextInt();
                     dHeap.insert(element);
                     System.out.println(dHeap + "\n");
                     break;
-                case 2:
+                case 2: // deleteMin
                     try
                     {
                         dHeap.deleteMin();
                         System.out.println(dHeap + "\n");
                     }
-                    catch(Exception e)
+                    catch(Exception e) // If list is empty
                     {
-                        System.out.print(e);
+                        System.out.println("Can't Delete as List is Empty\n");
                     }
                     break;
-                case 3:
-                    d = getD();
+                case 3: // New d value
+                    int d = getD();
                     dHeap.setD(d);
                     dHeap.buildHeap();
                     System.out.println(dHeap + "\n");
                     break;
-                case 4:
+                case 4: // Terminate program
                     System.out.println("Program Terminated");
             }
 
