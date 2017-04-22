@@ -29,7 +29,7 @@ public class DHeapDriver
 
         // Create initial heap
         DHeap<Integer> dHeap = new DHeap<Integer>(heapElements, d);
-        System.out.println(dHeap);
+        System.out.println(dHeap + "\n");
         int option;
         do
         {
@@ -42,13 +42,13 @@ public class DHeapDriver
                     System.out.print("Enter element to insert: ");
                     int element = in.nextInt();
                     dHeap.insert(element);
-                    System.out.println(dHeap);
+                    System.out.println(dHeap + "\n");
                     break;
                 case 2:
                     try
                     {
                         dHeap.deleteMin();
-                        System.out.println(dHeap);
+                        System.out.println(dHeap + "\n");
                     }
                     catch(Exception e)
                     {
@@ -60,8 +60,10 @@ public class DHeapDriver
                     d = in.nextInt();
                     dHeap.setD(d);
                     dHeap.buildHeap();
-                    System.out.println(dHeap);
+                    System.out.println(dHeap + "\n");
                     break;
+                case 4:
+                    System.out.println("Program Terminated");
             }
 
         }while(option != 4);

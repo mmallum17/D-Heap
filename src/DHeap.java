@@ -143,7 +143,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
     @Override
     public String toString()
     {
-        String output = "";
+        String output = String.format("Output: Heap (d=%d): ", d);
         for(int i = 1; i <= currentSize; i++)
         {
             output += array[i] + " ";
