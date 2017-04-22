@@ -1,9 +1,9 @@
-/*****************************************
- *   Program Title: DHeapDriver          *
- *   Author:  Marcus Mallum              *
- *   Class: CSCI3320,  Spring 2017       *
- *   Assignment #2 		                 *
- *****************************************/
+/***************************************************
+ *   Program Title: D-Heap Driver                  *
+ *   Author:  Marcus Mallum                        *
+ *   Class: CSCI-3320,  Spring 2017           	   *
+ *   Assignment #2 		                           *
+ ***************************************************/
 import java.util.Scanner;
 
 public class DHeapDriver
@@ -19,7 +19,6 @@ public class DHeapDriver
         for(int i = 0; i < parsed.length; i++)
         {
             heapElements[i] = Integer.parseInt(parsed[i]);
-            //System.out.printf("%d ", heapElements[i]);
         }
         System.out.println();
 
@@ -28,7 +27,7 @@ public class DHeapDriver
         int d = in.nextInt();
 
         // Create initial heap
-        DHeap<Integer> dHeap = new DHeap<Integer>(heapElements, d);
+        DHeap<Integer> dHeap = new DHeap<>(heapElements, d);
         System.out.println(dHeap + "\n");
         int option;
         do
@@ -67,14 +66,5 @@ public class DHeapDriver
             }
 
         }while(option != 4);
-        /*int numItems = 10000;
-        DHeap<Integer> h = new DHeap<>( );
-        int i = 37;
-
-        for( i = 37; i != 0; i = ( i + 37 ) % numItems )
-            h.insert( i );
-        for( i = 1; i < numItems; i++ )
-            if( h.deleteMin( ) != i )
-                System.out.println( "Oops! " + i );*/
     }
 }

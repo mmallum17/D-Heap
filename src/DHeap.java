@@ -1,48 +1,23 @@
-/**
- * Created by Marcus on 4/21/2017.
- */
-// BinaryHeap class
-//
-// CONSTRUCTION: with optional capacity (that defaults to 100)
-//               or an array containing initial items
-//
-// ******************PUBLIC OPERATIONS*********************
-// void insert( x )       --> Insert x
-// Comparable deleteMin( )--> Return and remove smallest item
-// Comparable findMin( )  --> Return smallest item
-// boolean isEmpty( )     --> Return true if empty; else false
-// void makeEmpty( )      --> Remove all items
-// ******************ERRORS********************************
-// Throws UnderflowException as appropriate
+/***************************************************
+ *   Program Title: Implementation of a D-Heap     *
+ *   Author:  Marcus Mallum                        *
+ *   Class: CSCI-3320,  Spring 2017           	   *
+ *   Assignment #2 		                           *
+ ***************************************************/
 
-/**
- * Implements a binary heap.
- * Note that all "matching" is based on the compareTo method.
- * @author Mark Allen Weiss
- */
 public class DHeap<AnyType extends Comparable<? super AnyType>>
 {
-    /**
-     * Construct the binary heap.
-     */
-    public DHeap( )
-    {
-        this( DEFAULT_CAPACITY );
-    }
+    private int currentSize;    // Number of elements in heap
+    private AnyType [ ] array;  // The heap array
+    private int d;              // d value of d heap
 
-    /**
-     * Construct the binary heap.
-     * @param capacity the capacity of the binary heap.
-     */
-    public DHeap( int capacity )
-    {
-        currentSize = 0;
-        array = (AnyType[]) new Comparable[ capacity + 1 ];
-    }
-
-    /**
-     * Construct the binary heap given an array of items.
-     */
+    /********************************************************************
+     *  CONSTRUCTOR: DHeap                                              *
+     *  PURPOSE: Creates the initial D-Heap using buildHeap()           *
+     *  INPUT PARAMETERS: AnyType[] items -> the initial list of items  *
+     *                     int d -> the d value of the D-Heap           *
+     *  OUTPUT: None 		              		                        *
+     ********************************************************************/
     public DHeap( AnyType [ ] items , int d)
     {
         setD(d);
@@ -55,16 +30,24 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         buildHeap( );
     }
 
-
+    /*********************************************************
+     *  FUNCTION: setD                                       *
+     *  PURPOSE: Sets the D value of the D-Heap              *
+     *  INPUT PARAMETERS: int d -> the d value of the D-Heap *
+     *  OUTPUT: None 		              		             *
+     *********************************************************/
     public void setD(int d)
     {
         this.d = d;
     }
-    /**
-     * Insert into the priority queue, maintaining heap order.
-     * Duplicates are allowed.
-     * @param x the item to insert.
-     */
+
+    /******************************************************************
+     *  FUNCTION: insert                                              *
+     *  PURPOSE: Inserts element into D-Heap, maintaining heap order. *
+     *           Duplicates are allowed                               *
+     *  INPUT PARAMETERS: AnyType x -> the item to insert             *
+     *  OUTPUT: None 		              		                      *
+     ******************************************************************/
     public void insert( AnyType x )
     {
         if( currentSize == array.length - 1 )
@@ -77,7 +60,12 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         array[ hole ] = x;
     }
 
-
+    /****************************************************************
+     *  FUNCTION: enlargeArray                                      *
+     *  PURPOSE: Enlarges array once it becomes full                *
+     *  INPUT PARAMETERS: int newSize -> the new size of the array  *
+     *  OUTPUT: None 		              		                    *
+     ****************************************************************/
     private void enlargeArray( int newSize )
     {
         AnyType [] old = array;
@@ -86,10 +74,12 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
             array[ i ] = old[ i ];
     }
 
-    /**
-     * Find the smallest item in the priority queue.
-     * @return the smallest item, or throw an UnderflowException if empty.
-     */
+    /*********************************************************
+     *  FUNCTION: findMin                                    *
+     *  PURPOSE: Find the minimum value in the D-Heap        *
+     *  INPUT PARAMETERS: None                               *
+     *  OUTPUT: AnyType -> the minimum element in the D-Heap *
+     *********************************************************/
     public AnyType findMin( ) throws Exception
     {
         if( isEmpty( ) )
@@ -97,10 +87,12 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         return array[ 1 ];
     }
 
-    /**
-     * Remove the smallest item from the priority queue.
-     * @return the smallest item, or throw an UnderflowException if empty.
-     */
+    /*********************************************************
+     *  FUNCTION: deleteMin                                  *
+     *  PURPOSE: Removes the smallest element in the D-Heap  *
+     *  INPUT PARAMETERS: None                               *
+     *  OUTPUT: AnyType -> the minimum element in the D-Heap *
+     *********************************************************/
     public AnyType deleteMin( ) throws Exception
     {
         if( isEmpty( ) )
@@ -113,33 +105,35 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         return minItem;
     }
 
-    /**
-     * Establish heap order property from an arbitrary
-     * arrangement of items. Runs in linear time.
-     */
+    /**********************************************************
+     *  FUNCTION: buildHeap                                   *
+     *  PURPOSE: Establishes heap order property for a D-Heap *
+     *  INPUT PARAMETERS: None                                *
+     *  OUTPUT: None 		              		              *
+     **********************************************************/
     public void buildHeap( )
     {
         for( int i = (currentSize + d - 2) / d; i > 0; i-- )
             percolateDown( i );
     }
 
-    /**
-     * Test if the priority queue is logically empty.
-     * @return true if empty, false otherwise.
-     */
+    /******************************************************
+     *  FUNCTION: isEmpty                                 *
+     *  PURPOSE: Tests if D-Heap is empty                 *
+     *  INPUT PARAMETERS: None                            *
+     *  OUTPUT: boolean -> true if empty, false otherwise *
+     ******************************************************/
     public boolean isEmpty( )
     {
         return currentSize == 0;
     }
 
-    /**
-     * Make the priority queue logically empty.
-     */
-    public void makeEmpty( )
-    {
-        currentSize = 0;
-    }
-
+    /*****************************************************
+     *  FUNCTION: toString                               *
+     *  PURPOSE: Returns String representation of D-Heap *
+     *  INPUT PARAMETERS: None                           *
+     *  OUTPUT: String, representation of D-Heap 		 *
+     *****************************************************/
     @Override
     public String toString()
     {
@@ -151,16 +145,12 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
         return output;
     }
 
-    private static final int DEFAULT_CAPACITY = 10;
-
-    private int currentSize;      // Number of elements in heap
-    private AnyType [ ] array; // The heap array
-    private int d;              // d value of d heap
-
-    /**
-     * Internal method to percolate down in the heap.
-     * @param hole the index at which the percolate begins.
-     */
+    /*************************************************************************
+     *  FUNCTION: percolateDown                                              *
+     *  PURPOSE: Percolates down a given hole                                *
+     *  INPUT PARAMETERS: int hole -> the index at when the percolate begins *
+     *  OUTPUT: None 		              		                             *
+     *************************************************************************/
     private void percolateDown( int hole )
     {
         int child;
@@ -171,6 +161,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
             // Get first child
             child = hole * d - d + 2;
             int tmpChild = child;
+
             // Find min child
             for(int i = 0; child + i <= currentSize && i < d ; i++)
             {
@@ -180,9 +171,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
                 }
             }
             child = tmpChild;
-            /*if( child != currentSize &&
-                    array[ child + 1 ].compareTo( array[ child ] ) < 0 )
-                child++;*/
+
             // If smallest child is less than parent, swap
             if( array[ child ].compareTo( tmp ) < 0 )
                 array[ hole ] = array[ child ];
