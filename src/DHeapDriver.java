@@ -10,7 +10,22 @@ public class DHeapDriver
 {
     public static void main( String [ ] args )
     {
-        // Get heap elements
+        // Get initial heap elements
+        Integer[] heapElements = getInitialHeap();
+
+        // Get d value
+        int d = getD();
+
+        // Create initial heap
+        DHeap<Integer> dHeap = new DHeap<>(heapElements, d);
+        System.out.println(dHeap + "\n");
+
+        runMenu(dHeap);
+    }
+
+    private static Integer[] getInitialHeap()
+    {
+        // Get initial heap elements
         Scanner in = new Scanner(System.in);
         System.out.print("Enter heap elements: ");
         String input = in.nextLine();
@@ -21,14 +36,21 @@ public class DHeapDriver
             heapElements[i] = Integer.parseInt(parsed[i]);
         }
         System.out.println();
+        return heapElements;
+    }
 
-        // Get d value
+    private static int getD()
+    {
+        Scanner in = new Scanner(System.in);
         System.out.print("Enter d: ");
         int d = in.nextInt();
+        return d;
+    }
 
-        // Create initial heap
-        DHeap<Integer> dHeap = new DHeap<>(heapElements, d);
-        System.out.println(dHeap + "\n");
+    private static void runMenu(DHeap dHeap)
+    {
+        int d;
+        Scanner in = new Scanner(System.in);
         int option;
         do
         {
@@ -55,8 +77,7 @@ public class DHeapDriver
                     }
                     break;
                 case 3:
-                    System.out.print("Enter d: ");
-                    d = in.nextInt();
+                    d = getD();
                     dHeap.setD(d);
                     dHeap.buildHeap();
                     System.out.println(dHeap + "\n");
