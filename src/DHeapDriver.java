@@ -4,6 +4,7 @@
  *   Class: CSCI-3320,  Spring 2017           	   *
  *   Assignment #2 		                           *
  ***************************************************/
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class DHeapDriver
@@ -25,18 +26,38 @@ public class DHeapDriver
      *********************************************************************/
     private static Integer[] getInitialHeap()
     {
-        // Get input from user
+        Integer[] heapElements;
+        boolean valid;
         Scanner in = new Scanner(System.in);
-        System.out.print("Enter heap elements: ");
-        String input = in.nextLine();
-        String[] parsed = input.split(" "); // Parse string
 
-        // Convert String input to Integer array
-        Integer[] heapElements = new Integer[parsed.length];
-        for(int i = 0; i < parsed.length; i++)
+        // Loop until a valid input is entered
+        do
         {
-            heapElements[i] = Integer.parseInt(parsed[i]);
-        }
+            valid = true;   // Assume input is valid
+
+            // Get input from user
+            System.out.print("Enter heap elements: ");
+            String input = in.nextLine();
+            String[] parsed = input.split(" "); // Parse string
+
+            // Convert String input to Integer array
+            heapElements = new Integer[parsed.length];
+            for(int i = 0; i < parsed.length; i++)
+            {
+                try
+                {
+                    heapElements[i] = Integer.parseInt(parsed[i]);
+                    valid = true;
+                }
+                catch(NumberFormatException NFE) // If invalid input, re-prompt
+                {
+                    System.out.println("Please enter numbers only!\n");
+                    valid = false;  // Used to repeat loop for new values
+                    break;
+                }
+            }
+        }while(!valid);
+
         System.out.println();
         return heapElements;
     }
@@ -50,8 +71,30 @@ public class DHeapDriver
     private static int getD()
     {
         Scanner in = new Scanner(System.in);
-        System.out.print("Enter d: ");
-        int d = in.nextInt();
+        boolean valid;
+        int d = -1;
+
+        do
+        {
+            valid = true;
+            System.out.print("Enter d: ");
+            try
+            {
+                d = in.nextInt();
+                if(d < 1)
+                {
+                    System.out.println("Please enter a valid value for d!\n");
+                    valid = false;
+                }
+            }
+            catch(Exception e)
+            {
+                in.nextLine();
+                System.out.println("Please enter a valid value for d!\n");
+                valid = false;
+            }
+        }while(!valid);
+
         return d;
     }
 
@@ -64,20 +107,49 @@ public class DHeapDriver
     private static void runMenu(DHeap dHeap)
     {
         Scanner in = new Scanner(System.in);
-        int option;
+        int option = -1;
         do
         {
-            // Display menu and get choice from user
-            System.out.print("Press 1) for insert, 2) for deleteMn, 3) for new d value, 4) to quit\n");
-            System.out.print("Enter choice: ");
-            option = in.nextInt();
+            boolean valid;
+            // Display menu and get valid choice from user
+            do
+            {
+                valid = true;
+                System.out.print("Press 1) for insert, 2) for deleteMn, 3) for new d value, 4) to quit\n");
+                System.out.print("Enter choice: ");
+                try     // Try to get a choice from the user
+                {
+                    option = in.nextInt();
+                    if(option < 1 || option > 4)    // If choice is out of range, get new choice
+                    {
+                        System.out.println("Please enter a valid choice!\n");
+                        valid = false;
+                    }
+                }
+                catch(InputMismatchException IME)   // If invalid choice, get new choice
+                {
+                    in.nextLine();
+                    System.out.println("Please enter a valid choice!\n");
+                    valid = false;
+                }
+            }while(!valid);
+
             switch(option)  // Perform Task
             {
-                case 1: // Insert
-                    System.out.print("Enter element to insert: ");
-                    int element = in.nextInt();
-                    dHeap.insert(element);
-                    System.out.println(dHeap + "\n");
+                case 1: // Insert valid input
+                    try     // Try to insert element
+                    {
+                        System.out.print("Enter element to insert: ");
+                        int element = in.nextInt();
+                        dHeap.insert(element);
+                        System.out.println(dHeap + "\n");
+                    }
+                    catch(InputMismatchException IME) // If invalid element, don't insert
+                    {
+                        in.nextLine();
+                        System.out.println("Invalid element, can't insert!");
+                        System.out.println(dHeap + "\n");
+                    }
                     break;
                 case 2: // deleteMin
                     try
@@ -87,7 +159,7 @@ public class DHeapDriver
                     }
                     catch(Exception e) // If list is empty
                     {
-                        System.out.println("Can't Delete as List is Empty\n");
+                        System.out.println("Can't Delete as List is Empty!\n");
                     }
                     break;
                 case 3: // New d value
