@@ -58,7 +58,6 @@ public class DHeapDriver
             }
         }while(!valid);
 
-        System.out.println();
         return heapElements;
     }
 
@@ -83,8 +82,7 @@ public class DHeapDriver
                 d = in.nextInt();
                 if(d < 1)
                 {
-                    System.out.println("Please enter a valid value for d!\n");
-                    valid = false;
+                    throw new Exception();
                 }
             }
             catch(Exception e)
@@ -104,6 +102,7 @@ public class DHeapDriver
      *  INPUT PARAMETERS: DHeap dHeap -> the D-Heap being used *
      *  OUTPUT: None 		              		               *
      ***********************************************************/
+    @SuppressWarnings("unchecked")
     private static void runMenu(DHeap dHeap)
     {
         Scanner in = new Scanner(System.in);
@@ -122,11 +121,11 @@ public class DHeapDriver
                     option = in.nextInt();
                     if(option < 1 || option > 4)    // If choice is out of range, get new choice
                     {
-                        System.out.println("Please enter a valid choice!\n");
-                        valid = false;
+                        throw new Exception();
                     }
+                    in.nextLine();
                 }
-                catch(InputMismatchException IME)   // If invalid choice, get new choice
+                catch(Exception e)   // If invalid choice, get new choice
                 {
                     in.nextLine();
                     System.out.println("Please enter a valid choice!\n");
@@ -141,6 +140,7 @@ public class DHeapDriver
                     {
                         System.out.print("Enter element to insert: ");
                         int element = in.nextInt();
+                        in.nextLine();
                         dHeap.insert(element);
                         System.out.println(dHeap + "\n");
                     }

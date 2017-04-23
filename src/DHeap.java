@@ -18,6 +18,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      *                    int d -> the d value of the D-Heap            *
      *  OUTPUT: None 		              		                        *
      ********************************************************************/
+    @SuppressWarnings("unchecked")
     public DHeap( AnyType [ ] items , int d)
     {
         // Initialize Values
@@ -69,6 +70,7 @@ public class DHeap<AnyType extends Comparable<? super AnyType>>
      *  INPUT PARAMETERS: int newSize -> the new size of the array  *
      *  OUTPUT: None 		              		                    *
      ****************************************************************/
+    @SuppressWarnings("unchecked")
     private void enlargeArray( int newSize )
     {
         AnyType [] old = array;
